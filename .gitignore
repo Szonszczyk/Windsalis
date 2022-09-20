@@ -102,3 +102,12 @@ dist
 
 # TernJS port file
 .tern-port
+
+.bat
+logs/
+.eslintrc.json
+application.yml
+lavalink-server.json
+.txt
+.jar
+config.json
