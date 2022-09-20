@@ -103,7 +103,7 @@ class Dispatcher {
 
     async tryAutoMode() {
         this.editPlayingMessage();
-        await new Promise(resolve => setTimeout(resolve, 30000));
+        await new Promise(resolve => setTimeout(resolve, 180000));
         if (this.current != null ) return;
         this.automode = true;
         await this.addTrackAutoMode();
