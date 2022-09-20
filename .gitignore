@@ -113,3 +113,4 @@ lavalink-server.json
 config.json
 playlists.json
 tracklist.json
+run.sh
