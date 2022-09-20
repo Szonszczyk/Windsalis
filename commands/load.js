@@ -5,8 +5,8 @@ module.exports = {
 		.setName('load')
 		.setDescription('Wczytuje wcześniej zapisaną playlistę'),
 	get playerCheck() {
-        return { voice: true, dispatcher: false, channel: false };
-    },
+		return { voice: true, dispatcher: false, channel: false };
+	},
 
 	async execute(interaction, client) {
 		await interaction.deferReply();
@@ -19,10 +19,10 @@ module.exports = {
 		await interaction.editReply(`Dodałam \`${db[interaction.member.id].tracks.length}\` utworów do kolejki!`);
 
 		dispatcher?.play();
-        client.queue.get(interaction.guildId)?.editPlayingMessage();
+		client.queue.get(interaction.guildId)?.editPlayingMessage();
 
 		setTimeout(async function() {
-        	await interaction.deleteReply();
-        }, 15000);
+			await interaction.deleteReply();
+		}, 15000);
 	},
 };

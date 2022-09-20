@@ -9,8 +9,8 @@ module.exports = {
 				.setRequired(false)
 			),
 	get playerCheck() {
-        return { voice: true, dispatcher: true, channel: true };
-    },
+		return { voice: true, dispatcher: true, channel: true };
+	},
 	async execute(interaction, client, dispatcher) {
 		const skips = interaction.options.getInteger('value');
 		if(skips) {
@@ -22,9 +22,9 @@ module.exports = {
 			dispatcher.automode ? client.databases.removeTrackfromTracklist(dispatcher.current):"";
 		}
 		dispatcher.paused = false;
-        dispatcher.player.stopTrack();
-        setTimeout(async function() {
-        	await interaction.deleteReply();
-        }, 10000);
+		dispatcher.player.stopTrack();
+		setTimeout(async function() {
+			await interaction.deleteReply();
+		}, 10000);
 	},
 };

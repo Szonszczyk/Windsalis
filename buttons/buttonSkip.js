@@ -1,13 +1,12 @@
-const { SlashCommandBuilder } = require('@discordjs/builders');
 module.exports = {
 	data: {
-		name: "buttonSkip"
+		name: 'buttonSkip',
 	},
 	get playerCheck() {
-        return { voice: true, dispatcher: true, channel: true };
-    },
+		return { voice: true, dispatcher: true, channel: true };
+	},
 	async execute(interaction, client, dispatcher) {
-        dispatcher.player.stopTrack();
-        dispatcher.paused = false;
+		dispatcher.player.stopTrack();
+		dispatcher.paused = false;
 	},
 };

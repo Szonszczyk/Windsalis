@@ -14,8 +14,8 @@ module.exports = {
 			)),
 
 	get playerCheck() {
-        return { voice: true, dispatcher: true, channel: true };
-    },
+		return { voice: true, dispatcher: true, channel: true };
+	},
 	async execute(interaction, client, dispatcher) {
 
 		const typesPL = {"all": "Wszystko - skończony utwór ląduje na końcu kolejki", "one": "Jeden - aktualnie grany utwór jest grany w pętli", "off": "Wyłączone"};
@@ -24,8 +24,8 @@ module.exports = {
 		dispatcher.editPlayingMessage();
 		await interaction.reply(`Powtarzanie ustawiono na \`${typesPL[dispatcher.repeat]}\``);
 
-        setTimeout(async function() {
-        	await interaction.deleteReply();
-        }, 60000);
+		setTimeout(async function() {
+			await interaction.deleteReply();
+		}, 60000);
 	},
 };

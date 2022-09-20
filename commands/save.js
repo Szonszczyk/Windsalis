@@ -5,8 +5,8 @@ module.exports = {
 		.setName('save')
 		.setDescription('Zapisuje aktualnie graną playlistę do późniejszego odtworzenia przez "load"'),
 	get playerCheck() {
-        return { voice: false, dispatcher: true, channel: false };
-    },
+		return { voice: false, dispatcher: true, channel: false };
+	},
 
 	async execute(interaction, client, dispatcher) {
 		const db = client.databases.playlists;
@@ -18,7 +18,7 @@ module.exports = {
 		result ? await interaction.reply('Pomyślnie zapisano playlistę!') : await interaction.reply('Nie udało się zapisać playlisty!')
 
 		setTimeout(async function() {
-        	await interaction.deleteReply();
-        }, 15000);
+			await interaction.deleteReply();
+		}, 15000);
 	},
 };

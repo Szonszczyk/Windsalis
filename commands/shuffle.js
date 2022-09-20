@@ -4,8 +4,8 @@ module.exports = {
 		.setName('shuffle')
 		.setDescription('Miesza kolejkę utworów. (Spauzowane -> wraz z aktualnym utworem, Grające -> tylko kolejkę)'),
 	get playerCheck() {
-        return { voice: true, dispatcher: true, channel: true };
-    },
+		return { voice: true, dispatcher: true, channel: true };
+	},
 	async execute(interaction, client, dispatcher) {
 		if(dispatcher.paused) {
 			dispatcher.queue = [dispatcher.current].concat(dispatcher.queue).sort(() => Math.random() - 0.5);
@@ -16,10 +16,10 @@ module.exports = {
 		} else {
 			dispatcher.queue = dispatcher.queue.sort(() => Math.random() - 0.5);
 			dispatcher.editPlayingMessage();
-		    await interaction.reply('Kolejka wymieszana!');
+			await interaction.reply('Kolejka wymieszana!');
 		}
 		setTimeout(async function() {
-        	await interaction.deleteReply();
-        }, 10000);
+			await interaction.deleteReply();
+		}, 10000);
 	},
 };
