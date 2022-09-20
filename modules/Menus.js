@@ -1,5 +1,11 @@
 const { EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle } = require('discord.js');
 
+function pad(num, ctplaces) {
+	let s = num.toString ();
+	while (s.length < ctplaces) { s = '0' + s; }
+	return (s);
+}
+
 class Menus {
 
 	constructor(client) {
