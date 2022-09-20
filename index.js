@@ -1,4 +1,4 @@
-const { Collection, GatewayIntentBits } = require('discord.js');
+const { GatewayIntentBits } = require('discord.js');
 const { token } = require('./config.json');
 const WindClient = require('./modules/Windsalis.js');
 
