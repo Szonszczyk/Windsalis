@@ -7,13 +7,14 @@ module.exports = {
 		return { voice: true, dispatcher: true, channel: true };
 	},
 	async execute(interaction, client, dispatcher) {
-		if(dispatcher.paused) {
+		if (dispatcher.paused) {
 			dispatcher.queue = [dispatcher.current].concat(dispatcher.queue).sort(() => Math.random() - 0.5);
 			dispatcher.current = null;
 			dispatcher.paused = false;
 			dispatcher.player.stopTrack();
 			await interaction.reply('Cała kolejka wymieszana, odpauzowuję!');
-		} else {
+		}
+		else {
 			dispatcher.queue = dispatcher.queue.sort(() => Math.random() - 0.5);
 			dispatcher.editPlayingMessage();
 			await interaction.reply('Kolejka wymieszana!');

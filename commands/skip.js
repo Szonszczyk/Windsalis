@@ -3,23 +3,23 @@ module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('skip')
 		.setDescription('Pomija aktualnie grany utwór')
-		.addIntegerOption(option => 
+		.addIntegerOption(option =>
 			option.setName('value')
 				.setDescription('Ilość utworów do pominięcia')
-				.setRequired(false)
-			),
+				.setRequired(false),
+		),
 	get playerCheck() {
 		return { voice: true, dispatcher: true, channel: true };
 	},
 	async execute(interaction, client, dispatcher) {
 		const skips = interaction.options.getInteger('value');
-		if(skips) {
-			for(let i = 1; i < skips; i++)
-				dispatcher.queue.shift();
+		if (skips) {
+			for (let i = 1; i < skips; i++) dispatcher.queue.shift();
 			await interaction.reply(`Pominięto aktualnie grany utwór i \`\`${skips - 1}\`\` z kolejki!`);
-		} else {
+		}
+		else {
 			await interaction.reply('Pominięto utwór!');
-			dispatcher.automode ? client.databases.removeTrackfromTracklist(dispatcher.current):"";
+			dispatcher.automode ? client.databases.removeTrackfromTracklist(dispatcher.current) : '';
 		}
 		dispatcher.paused = false;
 		dispatcher.player.stopTrack();

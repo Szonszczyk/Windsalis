@@ -8,10 +8,12 @@ module.exports = {
 	},
 	async execute(interaction, client, dispatcher) {
 		const paused = dispatcher.resolvePause();
-		if(paused)
+		if (paused) {
 			await interaction.reply('Muzyka spauzowana.');
-		else
+		}
+		else {
 			await interaction.reply('Muzyka wznowiona!');
+		}
 		setTimeout(async function() {
 			await interaction.deleteReply();
 		}, 10000);

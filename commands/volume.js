@@ -1,18 +1,18 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
 
-inRange = function(x, min, max) {
-	return (x - min) * ( x - max) <= 0;
+function inRange(x, min, max) {
+	return (x - min) * (x - max) <= 0;
 }
 
 module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('volume')
 		.setDescription('Zmiana głośności muzyki')
-		.addIntegerOption(option => 
+		.addIntegerOption(option =>
 			option.setName('value')
 				.setDescription('Głośność z przedziału [1-200] w procentach. Default: 60%')
-				.setRequired(true)
-			),
+				.setRequired(true),
+		),
 	get playerCheck() {
 		return { voice: true, dispatcher: true, channel: true };
 	},
