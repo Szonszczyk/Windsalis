@@ -111,3 +111,5 @@ lavalink-server.json
 *.txt
 *.jar
 config.json
+playlists.json
+tracklist.json
