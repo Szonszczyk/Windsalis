@@ -1,7 +1,6 @@
-const { SlashCommandBuilder } = require('@discordjs/builders');
 module.exports = {
 	data: {
-		name: "buttonStop"
+		name: 'buttonStop',
 	},
 	get playerCheck() {
 		return { voice: true, dispatcher: true, channel: true };
