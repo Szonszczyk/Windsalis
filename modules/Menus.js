@@ -135,8 +135,7 @@ class Menus {
 	}
 
 	playingEmbed(dispatcher) {
-
-		const words = { '-2':'<a:skipbackwards:943472806329466911><a:skipbackwards:943472806329466911>', '-1':'<a:skipbackwards:943472806329466911>', 0:'<a:play:943472805968748564>', 1:'<a:skipforward:943472806467895396>', 2:'<a:skipforward:943472806467895396><a:skipforward:943472806467895396>', 3:'<a:skipforward:943472806467895396><a:skipforward:943472806467895396><a:skipforward:943472806467895396>' };
+		const words = { '-2':'⏮️', '-1':'⏪', 0:'▶️', 1:'⏩', 2:'⏭️' };
 		const tracksPL = { 1:'utwór', 2:'utwory', 3:'utwory', 4:'utwory' };
 		const q = dispatcher.queue;
 		let time = dispatcher.current ? dispatcher.current.info.length : 0;
@@ -153,27 +152,27 @@ class Menus {
 			.setDescription(`Głośność: 🔊\`\`${dispatcher.player.filters.volume * 100}%\`\`${dispatcher.automode ? '\nTryb automatyczny ``włączony``!\n   ‌ ' : ''}${dispatcher.repeat === 'all' ? '\nOdtwarzam 🔁``playlistę`` w pętli!\n   ‌ ' : ''}${dispatcher.repeat === 'one' ? '\nOdtwarzam 🔂``utwór`` w pętli!\n   ‌ ' : ''}`);
 		if (dispatcher.automode) {
 			embed.setFooter({
-				text:`${ dispatcher.paused === true ? '⏸ Odtwarzanie wstrzymane!' : `🎶 Gram jeden z ${this.client.databases.tracklist.tracks.length} utworów poprzednio granych! (/skip by usunąć)`}\n▶️ Gram już przez ${this.msToTime(pastTracksLength + dispatcher.player.position)}!`,
+				text:`${ dispatcher.paused === true ? '⏸ Odtwarzanie wstrzymane!' : `🎶 Gram jeden z ${this.client.databases.tracklist.tracks.length} utworów! (/skip by usunąć)`}\n▶️ Muzyka gra przez ${this.msToTime(new Date().getTime() - new Date(dispatcher.message.createdAt).getTime())}!`,
 			});
 		}
 		else {
-			embed.setFooter({ text: `${ dispatcher.paused === true ? '⏸ Odtwarzanie wstrzymane!' : `🎶 Kolejka liczy: ${q.length + (dispatcher.current ? 1 : 0)} ${tracksPL[q.length + (dispatcher.current ? 1 : 0)] ? tracksPL[q.length + (dispatcher.current ? 1 : 0)] : 'utworów'}!
-		
-${q.length > 0 ? ` ${ time < 216000000 ? `▶️ Czas trwania: ${this.msToTime(time)}` : '▶️ Czas trwania: ∞' }` : '▶️ Czas trwania: Krótko'}` }` });
+			embed.setFooter({
+				text: `${ dispatcher.paused === true ? '⏸ Odtwarzanie wstrzymane!' : `🎶 Kolejka liczy: ${q.length + (dispatcher.current ? 1 : 0)} ${tracksPL[q.length + (dispatcher.current ? 1 : 0)] ? tracksPL[q.length + (dispatcher.current ? 1 : 0)] : 'utworów'}!\n${q.length > 0 ? ` ${ time < 216000000 ? `▶️ Czas trwania: ${this.msToTime(time)}` : '▶️ Czas trwania: ∞' }` : '▶️ Czas trwania: Krótko'}` }`,
+			});
 		}
 		if (dispatcher.current) {
 			embed.setImage(`https://img.youtube.com/vi/${dispatcher.current.info.identifier}/maxresdefault.jpg`)
 				.addFields({
 					name: `${words[0]} ${dispatcher.current.info.title}`,
 					value: `[_${dispatcher.current.info.author}_](${dispatcher.current.info.uri})
-${ dispatcher.current.info.length > 216000000 ? 'Stream!' : `${this.ReturnTrackTime(pp)} / ${this.ReturnTrackTime(dispatcher.current.info.length)} [${Math.round((pp / dispatcher.current.info.length) * 100)}%]
+${ dispatcher.current.info.length > 216000000 ? 'Stream!' : `${this.ReturnTrackTime(pp)} / ${this.ReturnTrackTime(dispatcher.current.info.length)} [ ${Math.round((pp / dispatcher.current.info.length) * 100)}% ]
 Pozostało: ${this.msToTime(dispatcher.current.info.length - pp)}\n   ‌ `} `,
 				});
 		}
 		else {
 			embed.addFields({
 				name: 'Nic nie ma w kolejce!',
-				value: 'Za 3 minuty uruchomię tryb automatyczny jeśli nie dostanę nic do puszczenia.\n   ‌ ',
+				value: 'Za około 3 minuty tryb automatyczny zostanie włączony. Nie może być cicho na kanale!\n   ‌ ',
 			});
 		}
 		for (let i = 0; i < (q.length > 2 ? 2 : q.length); i++) {

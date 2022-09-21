@@ -8,9 +8,9 @@ module.exports = {
 				.setDescription('Co powtarzać?')
 				.setRequired(true)
 				.addChoices(
-					{ name: 'wszystko', value: 'all' },
-					{ name: 'jeden', value: 'one' },
-					{ name: 'wyłącz', value: 'off' },
+					{ name: 'all / wszystko', value: 'all' },
+					{ name: 'one / jeden', value: 'one' },
+					{ name: 'off / wyłącz', value: 'off' },
 				)),
 
 	get playerCheck() {

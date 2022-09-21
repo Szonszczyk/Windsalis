@@ -38,16 +38,16 @@ class Databases {
 		}
 		catch (error) {
 			Database = {};
-			this.client.logger.error('[Databases]loadDbOnStart', `Nie udało się wczytać bazy ${type}!\n${error}`);
+			this.client.logger.error('[Databases]loadDbOnStart', `Failed to load database: ${type}!\n${error}`);
 		}
-		this.client.logger.log('[Databases]loadDbOnStart', `Wczytano bazę ${type}!`);
+		this.client.logger.log('[Databases]loadDbOnStart', `Successfully loaded database: ${type}!`);
 		return Database;
 	}
 
 	SaveDb(Database, type) {
 		let filePath = '';
 		if (!Database) {
-			this.client.logger.error('[Databases]SaveDb', `Problem z zapisem bazy ${type}, baza jest pusta!`);
+			this.client.logger.error('[Databases]SaveDb', `Failed to save database: ${type}, database is blank!`);
 			return false;
 		}
 		switch (type) {
@@ -67,7 +67,7 @@ class Databases {
 			fs.writeFile(filePath, json.plain(Database));
 		}
 		catch (error) {
-			this.client.logger.error('[Databases]SaveDb', `Problem z zapisem bazy ${type}!\n${error}`);
+			this.client.logger.error('[Databases]SaveDb', `Failed to save database: ${type}!\n${error}`);
 			return false;
 		}
 		return true;
