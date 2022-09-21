@@ -1,6 +1,17 @@
 const fs = require('node:fs');
 const json = require('format-json');
 
+function remove_item(arr, value) {
+	let b = '';
+	for (b in arr) {
+		if (arr[b] === value) {
+			arr.splice(b, 1);
+			break;
+		}
+	}
+	return arr;
+}
+
 class Databases {
 
 	constructor(client) {
