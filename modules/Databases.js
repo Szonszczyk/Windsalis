@@ -64,7 +64,7 @@ class Databases {
 		}
 
 		try {
-			fs.writeFile(filePath, json.plain(Database));
+			fs.writeFile(filePath, json.plain(Database), (err) => { if (err) console.error(err) });
 		}
 		catch (error) {
 			this.client.logger.error('[Databases]SaveDb', `Failed to save database: ${type}!\n${error}`);
