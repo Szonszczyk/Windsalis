@@ -14,12 +14,14 @@ module.exports = {
 		if (!db[interaction.member.id]) {
 			return interaction.editReply('Nie masz żadnej zapisanej playlisty!');
 		}
-		const node = client.shoukaku.getNode();
-		const dispatcher = await client.queue.handle(interaction.guild, interaction.member, interaction.channel, node, db[interaction.member.id].tracks);
-		await interaction.editReply(`Dodałam \`${db[interaction.member.id].tracks.length}\` utworów do kolejki!`);
+		else {
+			const node = client.shoukaku.getNode();
+			const dispatcher = await client.queue.handle(interaction.guild, interaction.member, interaction.channel, node, db[interaction.member.id].tracks);
+			await interaction.editReply(`Dodałam \`${db[interaction.member.id].tracks.length}\` utworów do kolejki!`);
 
-		dispatcher?.play();
-		client.queue.get(interaction.guildId)?.editPlayingMessage();
+			dispatcher?.play();
+			client.queue.get(interaction.guildId)?.editPlayingMessage();
+		}
 
 		setTimeout(async function() {
 			await interaction.deleteReply();

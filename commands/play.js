@@ -31,7 +31,7 @@ module.exports = {
 	get playerCheck() {
 		return { voice: true, dispatcher: false, channel: false };
 	},
-
+  
 	async execute(interaction, client) {
 		await interaction.deferReply();
 		const query = interaction.options.getString('query');
