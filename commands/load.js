@@ -15,7 +15,7 @@ module.exports = {
 			return interaction.editReply('Nie masz żadnej zapisanej playlisty!');
 		}
 		else {
-			const node = client.shoukaku.getNode();
+			const node = client.shoukaku.getIdealNode();
 			const dispatcher = await client.queue.handle(interaction.guild, interaction.member, interaction.channel, node, db[interaction.member.id].tracks);
 			await interaction.editReply(`Dodałam \`${db[interaction.member.id].tracks.length}\` utworów do kolejki!`);
 

@@ -11,7 +11,7 @@ module.exports = {
 
 	async execute(interaction, client) {
 		await interaction.deferReply();
-		const node = client.shoukaku.getNode();
+		const node = client.shoukaku.getIdealNode();
 		const dispatcher = await client.queue.handle(interaction.guild, interaction.member, interaction.channel, node, []);
 		if (dispatcher === 'Busy') return interaction.editReply('Łączę się z kanałem głosowym, minutka!');
 		await dispatcher.addTrackAutoMode();
