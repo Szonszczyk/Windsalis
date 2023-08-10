@@ -10,7 +10,9 @@ module.exports = {
 		.setDescription('Zmiana głośności muzyki')
 		.addIntegerOption(option =>
 			option.setName('value')
-				.setDescription('Głośność z przedziału [1-200] w procentach. Default: 60%')
+				.setDescription('Głośność z przedziału [1-1000] w procentach. Default: 60%')
+				.setMinValue(1)
+            	.setMaxValue(1000)
 				.setRequired(true),
 		),
 	get playerCheck() {
@@ -18,8 +20,8 @@ module.exports = {
 	},
 	async execute(interaction, client, dispatcher) {
 		let volume = interaction.options.getInteger('value');
-		if (!inRange(volume, 1, 200)) volume = 60;
-		dispatcher.player.setVolume(volume / 100);
+		if (!inRange(volume, 1, 1000)) volume = 60;
+		dispatcher.player.setVolume(volume);
 		dispatcher.editPlayingMessage();
 		await interaction.reply(`Głośność ustawiona na \`${volume}%\``);
 		setTimeout(async function() {

@@ -59,15 +59,16 @@ class Dispatcher {
 		if (this.automode === true) this.addTrackAutoMode();
 		this.current = this.queue.shift();
 		this.player
-			.setVolume(0.6)
+			.setGlobalVolume(60)
 			.playTrack({ track: this.current.track });
 		this.editPlayingMessageinIntervals();
 	}
 
-	destroy(reason) {
+	async destroy(reason) {
 		this.queue.length = 0;
-		this.player.connection.disconnect();
 		this.client.queue.delete(this.guild.id);
+		this.player = null;
+		await this.client.shoukaku.leaveVoiceChannel(this.guild.guildId);
 		this.client.logger.debug('[Dispatcher]destroy', `Destroyed the player & connection @ guild "${this.guild.id}"\nReason: ${reason || 'No Reason Provided'}`);
 	}
 
@@ -91,14 +92,8 @@ class Dispatcher {
 	}
 
 	resolvePause() {
-		if (!this.paused) {
-			this.player.setPaused(true);
-			this.paused = true;
-		}
-		else {
-			this.player.setPaused(false);
-			this.paused = false;
-		}
+		this.player.setPaused(!this.player.paused);
+		this.paused = !this.paused;
 		this.editPlayingMessage();
 		return this.paused;
 	}
@@ -120,7 +115,7 @@ class Dispatcher {
 
 		do { newTrack = this.client.databases.tracklist.tracks.random(); } while (pastTracksUri.indexOf(newTrack) > -1);
 
-		const node = this.client.shoukaku.getNode();
+		const node = this.client.shoukaku.getIdealNode();
 		const result = await node.rest.resolve(newTrack);
 		this.client.logger.debug('[Dispatcher]addTrackAutoMode', `Automode add "${result.tracks[0].info.title}" to Queue`);
 		this.queue.push(result.tracks[0]);

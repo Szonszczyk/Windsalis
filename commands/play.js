@@ -35,7 +35,7 @@ module.exports = {
 	async execute(interaction, client) {
 		await interaction.deferReply();
 		const query = interaction.options.getString('query');
-		const node = client.shoukaku.getNode();
+		const node = client.shoukaku.getIdealNode();
 
 		if (checkURL(query)) {
 			const result = await node.rest.resolve(query);
