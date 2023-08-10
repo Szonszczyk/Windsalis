@@ -10,7 +10,7 @@ class Queue extends Map {
 		const existing = this.get(guild.id);
 		if (!existing) {
 			if (this.client.shoukaku.players.has(guild.id)) return 'Busy';
-			const player = await node.joinVoiceChannel({
+			const player = await this.client.shoukaku.joinVoiceChannel({
 				guildId: guild.id,
 				shardId: guild.shardId,
 				channelId: member.voice.channelId
