@@ -40,7 +40,7 @@ module.exports = {
 		if (checkURL(query)) {
 			const result = await node.rest.resolve(query);
 			if (!result?.tracks.length) return interaction.editReply('Nic nie znalazłam do puszczenia...');
-			const playlist = result.loadType === 'PLAYLIST_LOADED';
+			const playlist = result.loadType === 'playlist';
 			const ytVideoId = getYoutubeVideoId(query);
 			if (playlist && ytVideoId) {
 				for (let i = 0; i < result.tracks.length; i++) {
@@ -49,7 +49,7 @@ module.exports = {
 					}
 				}
 			}
-			const tracks = playlist ? result.tracks : [result.tracks[0]];
+			const tracks = playlist ? result.tracks : [result.data];
 			const dispatcher = await client.queue.handle(interaction.guild, interaction.member, interaction.channel, node, tracks);
 			let offset = 0;
 			if (getYoutubeTimeId(query) != false && !isNaN(Number(getYoutubeTimeId(query)))) offset = 1000 * getYoutubeTimeId(query);
