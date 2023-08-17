@@ -39,7 +39,7 @@ module.exports = {
 
 		if (checkURL(query)) {
 			const result = await node.rest.resolve(query);
-			if (["track", "playlist"].includes(result.loadType)) return interaction.editReply(`Nic nie znalazłam do puszczenia... (Błąd:${result.loadType})`);
+			if (!["track", "playlist"].includes(result.loadType)) return interaction.editReply(`Nic nie znalazłam do puszczenia... (Błąd:${result.loadType})`);
 			const playlist = result.loadType === 'playlist';
 			const ytVideoId = getYoutubeVideoId(query);
 			if (playlist && ytVideoId) {
