@@ -80,6 +80,7 @@ class Dispatcher {
 
 	editPlayingMessageinIntervals() {
 		this.interval = setInterval(() => {
+			if (!this.player) clearInterval(this.interval);
 			if (new Date().getTime() - this.lastEditedMsgTime.getTime() >= 25000) {
 				this.editPlayingMessage();
 			}
