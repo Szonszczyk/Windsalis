@@ -8,7 +8,7 @@ module.exports = {
 	},
 	async execute(interaction, client, dispatcher) {
 		await interaction.deferReply();
-		if(dispatcher.queue.length > 0) {
+		if(dispatcher.current) {
 			dispatcher.queue.length = 0;
 			dispatcher.repeat = 'off';
 			dispatcher.stopped = true;
