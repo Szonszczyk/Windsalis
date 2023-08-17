@@ -17,7 +17,7 @@ class Dispatcher {
 
 		let _notifiedOnce = false;
 		const _errorHandler = data => {
-			if (data instanceof Error || data instanceof Object) this.client.logger.error('[Dispatcher]_errorHandler', data);
+			if (data instanceof Error || data instanceof Object) this.client.logger.error('[Dispatcher]_errorHandler', data.toString());
 			this.queue.length = 0;
 			this.destroy();
 		};

@@ -149,7 +149,7 @@ class Menus {
 			.setColor(7132823)
 			.setTimestamp()
 			.setAuthor({ name: 'Windsalis🎵', iconURL: 'https://i.ibb.co/GPngkVX/Rainsalis-serwer-avek-v2.png' })
-			.setDescription(`Głośność: 🔊\`\`${dispatcher.player.filters.volume * 100}%\`\`${dispatcher.automode ? '\nTryb automatyczny ``włączony``!\n   ‌ ' : ''}${dispatcher.repeat === 'all' ? '\nOdtwarzam 🔁``playlistę`` w pętli!\n   ‌ ' : ''}${dispatcher.repeat === 'one' ? '\nOdtwarzam 🔂``utwór`` w pętli!\n   ‌ ' : ''}`);
+			.setDescription(`Głośność: 🔊\`\`${dispatcher.player.volume}%\`\`${dispatcher.automode ? '\nTryb automatyczny ``włączony``!\n   ‌ ' : ''}${dispatcher.repeat === 'all' ? '\nOdtwarzam 🔁``playlistę`` w pętli!\n   ‌ ' : ''}${dispatcher.repeat === 'one' ? '\nOdtwarzam 🔂``utwór`` w pętli!\n   ‌ ' : ''}`);
 		if (dispatcher.automode) {
 			embed.setFooter({
 				text:`${ dispatcher.paused === true ? '⏸ Odtwarzanie wstrzymane!' : `🎶 Gram jeden z ${this.client.databases.tracklist.tracks.length} utworów! (/skip by usunąć)`}\n▶️ Muzyka gra przez ${this.msToTime(new Date().getTime() - new Date(dispatcher.message.createdAt).getTime())}!`,
