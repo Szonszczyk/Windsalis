@@ -51,16 +51,15 @@ class Dispatcher {
 		return this.client.queue.has(this.guild.id);
 	}
 
-	play() {
+	async play() {
 		if (!this.exists || this.stopped) return this.destroy();
 		if (this.current != null) this.past.push(this.current);
 		this.current = null;
 		if (!this.queue.length) return this.tryAutoMode();
 		if (this.automode === true) this.addTrackAutoMode();
 		this.current = this.queue.shift();
-		this.player
-			.setGlobalVolume(60)
-			.playTrack({ track: this.current.track });
+		await this.player.playTrack({ track: this.current.encoded });
+		await this.player.setGlobalVolume(60);
 		this.editPlayingMessageinIntervals();
 	}
 
@@ -117,8 +116,8 @@ class Dispatcher {
 
 		const node = this.client.shoukaku.getIdealNode();
 		const result = await node.rest.resolve(newTrack);
-		this.client.logger.debug('[Dispatcher]addTrackAutoMode', `Automode add "${result.tracks[0].info.title}" to Queue`);
-		this.queue.push(result.tracks[0]);
+		this.client.logger.debug('[Dispatcher]addTrackAutoMode', `Automode add "${result.data.info.title}" to Queue`);
+		this.queue.push(result.data);
 	}
 }
 module.exports = Dispatcher;
