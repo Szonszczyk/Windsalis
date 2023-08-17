@@ -12,7 +12,7 @@ module.exports = {
 		return { voice: true, dispatcher: true, channel: true };
 	},
 	async execute(interaction, client, dispatcher) {
-		if(dispatcher.queue.length === 0) {
+		if(!dispatcher.current) {
 			dispatcher.destroy("Skip while nothing is playing!");
 		}
 		else {

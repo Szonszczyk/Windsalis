@@ -166,7 +166,7 @@ class Menus {
 					name: `${words[0]} ${dispatcher.current.info.title}`,
 					value: `[_${dispatcher.current.info.author}_](${dispatcher.current.info.uri})
 ${ dispatcher.current.info.length > 216000000 ? 'Stream!' : `${this.ReturnTrackTime(pp)} / ${this.ReturnTrackTime(dispatcher.current.info.length)} [ ${Math.round((pp / dispatcher.current.info.length) * 100)}% ]
-Pozostało: ${this.msToTime(dispatcher.current.info.length - pp)}\n   ‌ `} `,
+Następny utwór <t:${Math.floor((new Date().getTime() + dispatcher.current.info.length - pp)/1000)}:R>\n   ‌ `} `,
 				});
 		}
 		else {

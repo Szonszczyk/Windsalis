@@ -14,12 +14,10 @@ module.exports = {
 		const node = client.shoukaku.getIdealNode();
 		const dispatcher = await client.queue.handle(interaction.guild, interaction.member, interaction.channel, node, []);
 		if (dispatcher === 'Busy') return interaction.editReply('Łączę się z kanałem głosowym, minutka!');
-		await dispatcher.addTrackAutoMode();
-		await dispatcher.addTrackAutoMode();
+		await dispatcher.addTrackAutoMode(2);
 		dispatcher.automode = true;
-
 		dispatcher?.play();
-		dispatcher?.editPlayingMessage();
+		//dispatcher?.editPlayingMessage();
 		interaction.editReply('Tryb automatyczny został ``włączony``!');
 		setTimeout(async function() {
 			await interaction.deleteReply();

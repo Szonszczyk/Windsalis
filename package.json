@@ -15,7 +15,7 @@
     "discord.js": "^14.11.0",
     "format-json": "^1.0.3",
     "node-fetch": "^2.6.1",
-    "shoukaku": "github:Deivu/Shoukaku#31ed644"
+    "shoukaku": "github:Deivu/Shoukaku"
   },
   "devDependencies": {
     "eslint": "^8.23.0"

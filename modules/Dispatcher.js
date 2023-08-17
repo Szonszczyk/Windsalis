@@ -33,17 +33,19 @@ class Dispatcher {
 				}
 				this.editPlayingMessage();
 			})
+			.on('closed', () => {
+				// error to user
+				this.destroy("Player closed");
+			})
 			.on('end', () => {
 				if (this.repeat === 'one') this.queue.unshift(this.current);
 				if (this.repeat === 'all') this.queue.push(this.current);
 				this.play();
 			})
 			.on('stuck', () => {
-				if (this.repeat === 'one') this.queue.unshift(this.current);
-				if (this.repeat === 'all') this.queue.push(this.current);
-				this.play();
+				this.client.logger.debug('[Dispatcher]onStuck', `Track playback stuck, force emitting end`);
+				this.player.emit('end');
 			})
-			.on('closed', _errorHandler)
 			.on('error', _errorHandler);
 	}
 
@@ -56,19 +58,20 @@ class Dispatcher {
 		if (this.current != null) this.past.push(this.current);
 		this.current = null;
 		if (!this.queue.length) return this.tryAutoMode();
-		if (this.automode === true) this.addTrackAutoMode();
+		if (this.automode === true) await this.addTrackAutoMode(1);
 		this.current = this.queue.shift();
-		await this.player.playTrack({ track: this.current.encoded });
 		await this.player.setGlobalVolume(60);
+		await this.player.playTrack({ track: this.current.encoded });
 		this.editPlayingMessageinIntervals();
 	}
 
 	async destroy(reason) {
 		this.queue.length = 0;
-		this.client.queue.delete(this.guild.id);
+		this.stopped = true;
 		this.player = null;
-		await this.client.shoukaku.leaveVoiceChannel(this.guild.guildId);
+		await this.client.shoukaku.leaveVoiceChannel(this.guild.id);
 		this.client.logger.debug('[Dispatcher]destroy', `Destroyed the player & connection @ guild "${this.guild.id}"\nReason: ${reason || 'No Reason Provided'}`);
+		this.client.queue.delete(this.guild.id);
 	}
 
 	editPlayingMessage() {
@@ -80,7 +83,10 @@ class Dispatcher {
 
 	editPlayingMessageinIntervals() {
 		this.interval = setInterval(() => {
-			if (!this.player) clearInterval(this.interval);
+			if (this.player === null) {
+				clearInterval(this.interval);
+				return;
+			}
 			if (new Date().getTime() - this.lastEditedMsgTime.getTime() >= 25000) {
 				this.editPlayingMessage();
 			}
@@ -103,22 +109,21 @@ class Dispatcher {
 		await new Promise(resolve => setTimeout(resolve, 180000));
 		if (this.current != null) return;
 		this.automode = true;
-		await this.addTrackAutoMode();
-		await this.addTrackAutoMode();
+		await this.addTrackAutoMode(2);
 		this.play();
 
 	}
 
-	async addTrackAutoMode() {
-		let newTrack = {};
-		const pastTracksUri = this.past.map(x => x.info.uri);
-
-		do { newTrack = this.client.databases.tracklist.tracks.random(); } while (pastTracksUri.indexOf(newTrack) > -1);
-
-		const node = this.client.shoukaku.getIdealNode();
-		const result = await node.rest.resolve(newTrack);
-		this.client.logger.debug('[Dispatcher]addTrackAutoMode', `Automode add "${result.data.info.title}" to Queue`);
-		this.queue.push(result.data);
+	async addTrackAutoMode(quant) {
+		for (let i = 0; i < quant; i++) {
+			let newTrack = {};
+			const pastTracksUri = this.past.map(x => x.info.uri);
+			do { newTrack = this.client.databases.tracklist.tracks.random(); } while (pastTracksUri.indexOf(newTrack) > -1);
+			const node = this.client.shoukaku.getIdealNode();
+			const result = await node.rest.resolve(newTrack);
+			this.client.logger.debug('[Dispatcher]addTrackAutoMode', `Automode add "${result.data.info.title}" to Queue`);
+			this.queue.push(result.data);
+		}
 	}
 }
 module.exports = Dispatcher;
