@@ -8,10 +8,15 @@ module.exports = {
 	},
 	async execute(interaction, client, dispatcher) {
 		await interaction.deferReply();
-		dispatcher.queue.length = 0;
-		dispatcher.repeat = 'off';
-		dispatcher.stopped = true;
-		dispatcher.player.stopTrack();
+		if(dispatcher.queue.length > 0) {
+			dispatcher.queue.length = 0;
+			dispatcher.repeat = 'off';
+			dispatcher.stopped = true;
+			dispatcher.player.stopTrack();
+		}
+		else {
+			dispatcher.destroy("Stop while nothing is playing!");
+		}
 		await dispatcher.message.delete();
 		setTimeout(async function() {
 			await interaction.editReply('Wyłączyłam muzykę!');
