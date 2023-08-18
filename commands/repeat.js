@@ -21,6 +21,7 @@ module.exports = {
 		const typesPL = { 'all': 'Wszystko - skończony utwór ląduje na końcu kolejki', 'one': 'Jeden - aktualnie grany utwór jest grany w pętli', 'off': 'Wyłączone' };
 
 		dispatcher.repeat = interaction.options.getString('powtarzanie');
+		dispatcher.automode = false;
 		dispatcher.editPlayingMessage();
 		await interaction.reply(`Powtarzanie ustawiono na \`${typesPL[dispatcher.repeat]}\``);
 

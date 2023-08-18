@@ -69,9 +69,9 @@ module.exports = {
 		}
 		else {
 			const search = await node.rest.resolve(`ytsearch:${query}`);
-			if (!search?.tracks.length) return interaction.editReply('Nic nie znalazłam, przepraszam! Zaraz poinformuję mojego właściciela i postaramy się to naprawić!');
+			if (!search?.data.length) return interaction.editReply('Nic nie znalazłam, przepraszam! Zaraz poinformuję mojego właściciela i postaramy się to naprawić!');
 
-			await interaction.editReply({ embeds: [client.menus.YoutubeVideosEmbed(search.tracks, query)], components: client.menus.buttonCreator(5, false) });
+			await interaction.editReply({ embeds: [client.menus.YoutubeVideosEmbed(search.data, query)], components: client.menus.buttonCreator(5, false) });
 
 			const filter = i => ['0', '1', '2', '3', '4', 'cancel'].indexOf(i.customId) > -1 && i.user.id === interaction.member.id;
 			const collector = interaction.channel.createMessageComponentCollector({ filter, time: 120000 });
@@ -79,7 +79,7 @@ module.exports = {
 			collector.on('collect', async i => {
 				await i.update({ content: 'Już działam!', components: [] });
 				if (Number(i.customId) > -1 && Number(i.customId) < 5) {
-					const track = search.tracks[Number(i.customId)];
+					const track = search.data[Number(i.customId)];
 					const dispatcher = await client.queue.handle(interaction.guild, interaction.member, interaction.channel, node, [track]);
 					if (dispatcher === 'Busy') return i.editReply('Łączę się z kanałem głosowym, minutka!');
 					await interaction

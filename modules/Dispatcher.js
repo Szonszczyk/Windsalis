@@ -59,10 +59,17 @@ class Dispatcher {
 		this.current = null;
 		if (!this.queue.length) return this.tryAutoMode();
 		if (this.automode === true) await this.addTrackAutoMode(1);
-		this.current = this.queue.shift();
-		await this.player.setGlobalVolume(60);
-		await this.player.playTrack({ track: this.current.encoded });
-		this.editPlayingMessageinIntervals();
+		do {
+			this.current = this.queue.shift();
+		} while (this.current.length < 5500 && this.current);
+		if (this.current) {
+			await this.player.setGlobalVolume(60);
+			await this.player.playTrack({ track: this.current.encoded });
+			this.editPlayingMessageinIntervals();
+		} else {
+			this.tryAutoMode();
+		}
+		
 	}
 
 	async destroy(reason) {
@@ -111,7 +118,6 @@ class Dispatcher {
 		this.automode = true;
 		await this.addTrackAutoMode(2);
 		this.play();
-
 	}
 
 	async addTrackAutoMode(quant) {
