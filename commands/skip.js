@@ -26,8 +26,8 @@ module.exports = {
 				dispatcher.automode ? client.databases.removeTrackfromTracklist(dispatcher.current) : '';
 			}
 			dispatcher.paused = false;
-			dispatcher.player.stopTrack();
 			if (dispatcher.queue.length <= 1 && dispatcher.automode) await dispatcher.addTrackAutoMode(2);
+			dispatcher.player.stopTrack();
 		}
 		setTimeout(async function() {
 			await interaction.deleteReply();

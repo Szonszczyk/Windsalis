@@ -10,7 +10,7 @@ module.exports = {
 	},
 
 	async execute(interaction, client, dispatcher) {
-
+		await interaction.deferReply();
 		if (dispatcher) {
 			if (dispatcher.automode) {
 				interaction.editReply('Nie tykaj ;_; Tryb automatyczny już tu działa!');
@@ -23,7 +23,6 @@ module.exports = {
 				interaction.editReply('Tryb zwykły został zastąpiony automatycznym!');
 			}
 		} else {
-			await interaction.deferReply();
 			const node = client.shoukaku.getIdealNode();
 			const dispatcher = await client.queue.handle(interaction.guild, interaction.member, interaction.channel, node, []);
 			if (dispatcher === 'Busy') return interaction.editReply('Łączę się z kanałem głosowym, minutka!');
