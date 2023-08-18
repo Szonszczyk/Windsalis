@@ -172,7 +172,7 @@ Następny utwór <t:${Math.floor((new Date().getTime() + dispatcher.current.info
 		else {
 			embed.addFields({
 				name: 'Nic nie ma w kolejce!',
-				value: `<t:${new Date().getTime()/1000 + 180}:R> tryb automatyczny zostanie włączony. Nie może być cicho na kanale!\n   ‌ `, 
+				value: `<t:${Math.floor(new Date().getTime()/1000 + 180)}:R> tryb automatyczny zostanie włączony. Nie może być cicho na kanale!\n   ‌ `, 
 			});
 		}
 		for (let i = 0; i < (q.length > 2 ? 2 : q.length); i++) {

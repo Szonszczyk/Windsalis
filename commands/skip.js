@@ -27,7 +27,7 @@ module.exports = {
 			}
 			dispatcher.paused = false;
 			dispatcher.player.stopTrack();
-			if (dispatcher.queue.length >= 1 && dispatcher.automode) await dispatcher.addTrackAutoMode(2);
+			if (dispatcher.queue.length <= 1 && dispatcher.automode) await dispatcher.addTrackAutoMode(2);
 		}
 		setTimeout(async function() {
 			await interaction.deleteReply();
