@@ -61,7 +61,7 @@ class Dispatcher {
 		if (this.automode === true) await this.addTrackAutoMode(1);
 		do {
 			this.current = this.queue.shift();
-		} while (this.current.info.length < 5500 && this.current);
+		} while (this.current && this.current.info.length < 5500 && this.current);
 		if (this.current) {
 			await this.player.setGlobalVolume(60);
 			await this.player.playTrack({ track: this.current.encoded });
