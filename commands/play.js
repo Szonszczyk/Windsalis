@@ -41,21 +41,21 @@ module.exports = {
 			const result = await node.rest.resolve(query);
 			if (!["track", "playlist"].includes(result.loadType)) return interaction.editReply(`Nic nie znalazłam do puszczenia... (Błąd:${result.loadType})`);
 			const playlist = result.loadType === 'playlist';
+			const tracks = playlist ? result.data.tracks : [result.data];
 			const ytVideoId = getYoutubeVideoId(query);
 			if (playlist && ytVideoId) {
-				for (let i = 0; i < result.tracks.length; i++) {
-					if (ytVideoId == result.tracks[i].info.identifier) {
-						result.tracks = result.tracks.slice(i, result.tracks.length - 1);
+				for (let i = 0; i < tracks.length; i++) {
+					if (ytVideoId == tracks[i].info.identifier) {
+						tracks = tracks.slice(i, tracks.length - 1);
 					}
 				}
 			}
-			const tracks = playlist ? result.tracks : [result.data];
 			const dispatcher = await client.queue.handle(interaction.guild, interaction.member, interaction.channel, node, tracks);
 			let offset = 0;
 			if (getYoutubeTimeId(query) != false && !isNaN(Number(getYoutubeTimeId(query)))) offset = 1000 * getYoutubeTimeId(query);
 			if (dispatcher === 'Busy') return interaction.editReply('Łączę się z kanałem głosowym, minutka!');
 			await interaction
-				.editReply(playlist ? `Dodałam \`${result.playlistInfo.name}\` do kolejki!` : `Dodałam \`${tracks[0].info.title}\` do kolejki!`)
+				.editReply(playlist ? `Dodałam \`${result.data.info.name}\` do kolejki!` : `Dodałam \`${tracks[0].info.title}\` do kolejki!`)
 				.catch(() => null);
 
 			client.databases.addTracktoTracklist(tracks);
