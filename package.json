@@ -18,6 +18,6 @@
     "shoukaku": "github:Deivu/Shoukaku"
   },
   "devDependencies": {
-    "eslint": "^8.23.0"
+    "eslint": "^8.48.0"
   }
 }
