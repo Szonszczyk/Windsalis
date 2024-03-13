@@ -125,7 +125,7 @@ class Dispatcher {
 			let newTrack = {};
 			const pastTracksUri = this.past.map(x => x.info.uri);
 			do { newTrack = this.client.databases.tracklist.tracks.random(); } while (pastTracksUri.indexOf(newTrack) > -1);
-			const node = this.client.shoukaku.getIdealNode();
+			const node = this.client.shoukaku.options.nodeResolver(this.client.shoukaku.nodes);
 			const result = await node.rest.resolve(newTrack);
 			this.client.logger.debug('[Dispatcher]addTrackAutoMode', `Automode add "${result.data.info.title}" to Queue`);
 			this.queue.push(result.data);

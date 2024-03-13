@@ -29,5 +29,4 @@ class ShoukakuHandler extends Shoukaku {
 		);
 	}
 }
-
 module.exports = ShoukakuHandler;
