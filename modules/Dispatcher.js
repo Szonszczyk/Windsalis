@@ -1,10 +1,11 @@
 class Dispatcher {
-	constructor({ client, guild, channel, player, message }) {
+	constructor({ client, guild, channel, player, message, voiceChannelId }) {
 		this.client = client;
 		this.guild = guild;
 		this.channel = channel;
 		this.player = player;
 		this.message = message;
+		this.voiceChannelId = voiceChannelId;
 		this.queue = [];
 		this.past = [];
 		this.repeat = 'off';
@@ -13,7 +14,6 @@ class Dispatcher {
 		this.paused = false;
 		this.automode = false;
 		this.lastEditedMsgTime = new Date();
-
 
 		let _notifiedOnce = false;
 		const _errorHandler = data => {
@@ -31,6 +31,7 @@ class Dispatcher {
 				else if (this.repeat === 'all' || this.repeat === 'off') {
 					_notifiedOnce = false;
 				}
+				this.client.logger.log('[Dispatcher]onStart', `Track playback started`);
 				this.editPlayingMessage();
 			})
 			.on('closed', () => {
@@ -44,6 +45,10 @@ class Dispatcher {
 			})
 			.on('stuck', () => {
 				this.client.logger.debug('[Dispatcher]onStuck', `Track playback stuck, force emitting end`);
+				this.player.emit('end');
+			})
+			.on('exception', () => {
+				this.client.logger.debug('[Dispatcher]onException', `Track playback exception occured, force emitting end`);
 				this.player.emit('end');
 			})
 			.on('error', _errorHandler);
@@ -63,13 +68,11 @@ class Dispatcher {
 			this.current = this.queue.shift();
 		} while (this.current && this.current.info.length < 5500 && this.current);
 		if (this.current) {
-			await this.player.setGlobalVolume(60);
-			await this.player.playTrack({ track: this.current.encoded });
+			await this.player.playTrack({ track: this.current.encoded, options: {volume: 60} });
 			this.editPlayingMessageinIntervals();
 		} else {
 			this.tryAutoMode();
 		}
-		
 	}
 
 	async destroy(reason) {

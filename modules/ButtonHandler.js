@@ -43,7 +43,7 @@ class ButtonHandler extends EventEmitter {
 			if (command.playerCheck?.voice && !interaction.member.voice.channelId) return;
 			const dispatcher = this.client.queue.get(interaction.guildId);
 			if (command.playerCheck?.dispatcher && !dispatcher) return;
-			if (command.playerCheck?.channel && dispatcher.player.connection.channelId !== interaction.member.voice.channelId) return;
+			if (command.playerCheck?.channel && dispatcher.voiceChannelId !== interaction.member.voice.channelId) return;
 			await command.execute(interaction, this.client, dispatcher);
 		}
 		catch (error) {

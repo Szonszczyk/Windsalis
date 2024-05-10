@@ -41,7 +41,7 @@ class InteractionHandler extends EventEmitter {
 			if (command.playerCheck?.voice && !interaction.member.voice.channelId) return interaction.reply('Musisz być na kanale głosowym by użyć tej komendy!');
 			const dispatcher = this.client.queue.get(interaction.guildId);
 			if (command.playerCheck?.dispatcher && !dispatcher) return interaction.reply('Nic tu nie gra. Daj mi spokój.');
-			if (command.playerCheck?.channel && dispatcher.player.connection.channelId !== interaction.member.voice.channelId) return interaction.reply('Nie jesteśmy na tym samym kanale głosowym!');
+			if (command.playerCheck?.channel && dispatcher.voiceChannelId !== interaction.member.voice.channelId) return interaction.reply('Nie jesteśmy na tym samym kanale głosowym!');
 			await command.execute(interaction, this.client, dispatcher);
 		}
 		catch (error) {

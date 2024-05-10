@@ -1,4 +1,3 @@
-const ShoukakuHandler = require('./ShoukakuHandler.js');
 const { Client, Collection, LimitedCollection } = require('discord.js');
 const { token } = require('../config.json');
 const WindLogger = require('./Logger.js');
@@ -9,30 +8,17 @@ const ButtonHandler = require('./ButtonHandler.js');
 const Menus = require('./Menus.js');
 const Databases = require('./Databases.js');
 
+const { Shoukaku, Connectors } = require('shoukaku');
+const servers = require('../lavalink-server.json');
+const shoukakuOptions = require('../shoukaku-options.js');
+
 class Windsalis extends Client {
 	constructor(options) {
-		// create cache
-		options.makeCache = manager => {
-			switch (manager.name) {
-			// Disable Cache
-			case 'GuildEmojiManager':
-			case 'GuildBanManager':
-			case 'GuildInviteManager':
-			case 'GuildStickerManager':
-			case 'StageInstanceManager':
-			case 'PresenceManager':
-			case 'ThreadManager': return new LimitedCollection({ maxSize: 0 });
-			// TLRU cache, Lifetime 30 minutes
-			case 'MessageManager': return new LimitedCollection({ maxSize: 1 });
-			// Default cache
-			default: return new Collection();
-			}
-		};
 		super(options);
 		this.color = 7132823;
 
 		this.logger = new WindLogger();
-		this.shoukaku = new ShoukakuHandler(this);
+		this.shoukaku = new Shoukaku(new Connectors.DiscordJS(this), servers, shoukakuOptions);
 		this.queue = new Queue(this);
 
 		this.interactions = new InteractionHandler(this).build();
@@ -41,6 +27,18 @@ class Windsalis extends Client {
 
 		this.menus = new Menus(this);
 		this.databases = new Databases(this).build();
+
+		this.shoukaku
+            .on('ready', name => this.logger.log('[Shoukaku]ready', `Lavalink Node: ${name} is now ready`))
+            .on('reconnecting', (name, left, timeout) => this.logger.warn('[Shoukaku]reconnecting', `Lavalink Node: ${name} is reconnecting. Tries Left: ${left} | Timeout: ${timeout}s`))
+            .on('disconnect', (name, moved) => this.logger.warn('[Shoukaku]disconnect', `Lavalink Node: ${name} is disconnected. Moved: ${moved}`))
+            .on('error', (name, error) => this.logger.error('[Shoukaku]error', `Lavalink Node: ${name} threw an error.\n${error}`))
+            .on('debug', (name, message) => {
+            const lowercase = message.toLowerCase();
+            if (lowercase.includes('status update'))
+                return;
+            this.logger.debug('[ShoukakuHandler]debug', `Lavalink Node: ${name} | ${message}`);
+        });
 	}
 
 	async login() {
@@ -56,3 +54,8 @@ class Windsalis extends Client {
 }
 
 module.exports = Windsalis;
+
+
+
+
+

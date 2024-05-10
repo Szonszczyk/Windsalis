@@ -9,15 +9,13 @@
   "author": "Szonszczyk",
   "license": "ISC",
   "dependencies": {
-    "@discordjs/builders": "^1.2.0",
-    "@discordjs/rest": "^1.1.0",
-    "@discordjs/voice": "^0.11.0",
-    "discord.js": "^14.11.0",
+    "@discordjs/rest": "^2.0.0",
+    "discord.js": "^14.14.1",
     "format-json": "^1.0.3",
     "node-fetch": "^2.6.1",
-    "shoukaku": "github:Deivu/Shoukaku"
+    "shoukaku": "^4.0.1"
   },
   "devDependencies": {
-    "eslint": "^8.48.0"
+    "eslint": "^8.56.0"
   }
 }

@@ -23,8 +23,7 @@ module.exports = {
 				interaction.editReply('Tryb zwykły został zastąpiony automatycznym!');
 			}
 		} else {
-			const node = client.shoukaku.options.nodeResolver(client.shoukaku.nodes);
-			const dispatcher = await client.queue.handle(interaction.guild, interaction.member, interaction.channel, node, []);
+			const dispatcher = await client.queue.handle(interaction.guild, interaction.member, interaction.channel, []);
 			if (dispatcher === 'Busy') return interaction.editReply('Łączę się z kanałem głosowym, minutka!');
 			await dispatcher.addTrackAutoMode(2);
 			dispatcher.automode = true;

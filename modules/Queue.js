@@ -6,14 +6,14 @@ class Queue extends Map {
 		this.client = client;
 	}
 
-	async handle(guild, member, channel, node, tracks) {
+	async handle(guild, member, channel, tracks) {
 		const existing = this.get(guild.id);
 		if (!existing) {
 			if (this.client.shoukaku.players.has(guild.id)) return 'Busy';
 			const player = await this.client.shoukaku.joinVoiceChannel({
 				guildId: guild.id,
+				channelId: member.voice.channelId,
 				shardId: guild.shardId,
-				channelId: member.voice.channelId
 			});
 			const message = await channel.send({ embeds: [ this.client.menus.createDefaultEmbed() ], components: this.client.menus.playingButtonCreator() });
 			this.client.logger.debug('[Queue]handle', `New connection @ guild "${guild.id}"`);
@@ -23,6 +23,7 @@ class Queue extends Map {
 				channel,
 				player,
 				message,
+				voiceChannelId: member.voice.channelId,
 			});
 			for (const track of tracks) {
 				dispatcher.queue.push(track);

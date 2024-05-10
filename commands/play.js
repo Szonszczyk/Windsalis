@@ -50,7 +50,7 @@ module.exports = {
 					}
 				}
 			}
-			const dispatcher = await client.queue.handle(interaction.guild, interaction.member, interaction.channel, node, tracks);
+			const dispatcher = await client.queue.handle(interaction.guild, interaction.member, interaction.channel, tracks);
 			let offset = 0;
 			if (getYoutubeTimeId(query) != false && !isNaN(Number(getYoutubeTimeId(query)))) offset = 1000 * getYoutubeTimeId(query);
 			if (dispatcher === 'Busy') return interaction.editReply('Łączę się z kanałem głosowym, minutka!');
@@ -80,7 +80,7 @@ module.exports = {
 				await i.update({ content: 'Już działam!', components: [] });
 				if (Number(i.customId) > -1 && Number(i.customId) < 5) {
 					const track = search.data[Number(i.customId)];
-					const dispatcher = await client.queue.handle(interaction.guild, interaction.member, interaction.channel, node, [track]);
+					const dispatcher = await client.queue.handle(interaction.guild, interaction.member, interaction.channel, [track]);
 					if (dispatcher === 'Busy') return i.editReply('Łączę się z kanałem głosowym, minutka!');
 					await interaction
 						.editReply({ content: `Dodałam \`${track.info.title}\` do kolejki!`, embeds: [] })
